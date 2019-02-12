@@ -29,7 +29,7 @@ FastDetector::~FastDetector()
 bool FastDetector::isFeature(int pix_x, int pix_y, int timesmp, bool polarity)
 {
   // update SAE
-  const int pol = polarity ? 1 : 0;
+  const int pol = polarity ? 1 : 0; //conver plo to 1 or 0
   sae_[pol][pix_x][pix_y] = timesmp;//
 
   const int max_scale = 1;
@@ -48,7 +48,7 @@ bool FastDetector::isFeature(int pix_x, int pix_y, int timesmp, bool polarity)
   {
     for (int streak_size = 3; streak_size<=6; streak_size++)
     {
-            // check that streak event is larger than neighbor
+      // check that streak event is larger than neighbor
       if ((sae_[pol][pix_x+circle3_[i][0]][pix_y+circle3_[i][1]]) <  (sae_[pol][pix_x+circle3_[(i-1+16)%16][0]][pix_y+circle3_[(i-1+16)%16][1]]))
         continue;
 
@@ -56,6 +56,7 @@ bool FastDetector::isFeature(int pix_x, int pix_y, int timesmp, bool polarity)
       if (sae_[pol][pix_x+circle3_[(i+streak_size-1)%16][0]][pix_y+circle3_[(i+streak_size-1)%16][1]] < sae_[pol][pix_x+circle3_[(i+streak_size)%16][0]][pix_y+circle3_[(i+streak_size)%16][1]])
         continue;
 
+      // find the smallest timestamp in corner min_t
       double min_t = sae_[pol][pix_x+circle3_[i][0]][pix_y+circle3_[i][1]];
       for (int j=1; j<streak_size; j++)
       {
@@ -64,6 +65,7 @@ bool FastDetector::isFeature(int pix_x, int pix_y, int timesmp, bool polarity)
           min_t = tj;
       }
 
+      //check if corner timestamp is higher than corner
       bool did_break = false;
       for (int j=streak_size; j<16; j++)
       {
@@ -102,7 +104,7 @@ bool FastDetector::isFeature(int pix_x, int pix_y, int timesmp, bool polarity)
           continue;
 
         // check that streak event is larger than neighbor
-        if (sae_[pol][pix_x+circle4_[(i+streak_size-1)%20][0]][pix_y+circle4_[(i+streak_size-1)%20][1]] <          sae_[pol][pix_x+circle4_[(i+streak_size)%20][0]][pix_y+circle4_[(i+streak_size)%20][1]])
+        if (sae_[pol][pix_x+circle4_[(i+streak_size-1)%20][0]][pix_y+circle4_[(i+streak_size-1)%20][1]] < sae_[pol][pix_x+circle4_[(i+streak_size)%20][0]][pix_y+circle4_[(i+streak_size)%20][1]])
           continue;
 
         double min_t = sae_[pol][pix_x+circle4_[i][0]][pix_y+circle4_[i][1]];

@@ -30,9 +30,8 @@ private:
   static const int sensor_width_ = 240;
   static const int sensor_height_ = 180;
 
-  // SAE
+  // SAE (Surface of Active Event)
   int sae_[2][sensor_width_][sensor_height_];
 };
-
 
 } // namespace

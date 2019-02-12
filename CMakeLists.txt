@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8.9)
 project(fast_FPGA)
 
 #find_package (eigen3 3.0 REQUIRED NO_MODULE)
-
+find_package( OpenCV 3.3.1 EXACT REQUIRED PATHS /usr)
 
 #Bring the headers, such as Student.h into the project
 include_directories(include)
@@ -14,4 +14,5 @@ include_directories(include)
 file(GLOB SOURCES "src/*.cpp")
 
 add_executable(fast_FPGA ${SOURCES})
-target_link_libraries (fast_FPGA)
+#target_link_libraries (fast_FPGA)
+target_link_libraries( fast_FPGA ${OpenCV_LIBS} )
